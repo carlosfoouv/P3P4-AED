@@ -360,6 +360,13 @@ En nuestro estudio queremos aplicar una serie de criterios de exclusión sobre l
 ```{r }
 
 
+planes.f <- planes %>%
+  filter(!(manufacturer %in% c("MCDONELL DOUGLAS", "DOUGLAS", "MCDONELL DOUGLAS AIRCRAFT"))) %>%
+  filter(seats >= 90 & seats <= 210)
+#Primero filtro para eliminar los DOUGLAS ylueg los asientos
+
+mutate(planes.f, manufacturer = ifelse(manufacturer %in% c("AIRBUS", "AIRBUS INDUSTRIE"), "AIRBUS COMP", manufacturer))
+#fuera del pipe usamos mutates para cambiar manufacturer para unificar los AIRBUS
 
 ```
 
@@ -368,7 +375,6 @@ En nuestro estudio queremos aplicar una serie de criterios de exclusión sobre l
 Crea un data frame denominado `flights.f` que contenga los vuelos que involucren a los aviones presentes en el data frame `planes.f`. Para ello utiliza algunas de las funciones de **XXX_join** y la variable `tailnum` que es común en ambos data frames.
 
 ```{r }
-
 
 ```
 
