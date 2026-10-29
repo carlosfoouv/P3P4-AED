@@ -261,7 +261,9 @@ Para pasar a formato *tidy* necesitamos realizar dos operaciones en este caso. E
 Convierte el conjunto de datos TB en *tidy* utilizando `gather` y `separate`.
 
 ```{r}
-
+raw %>% 
+  gather(key = "grupo", value = "casos", -c(country,year)) %>% 
+  separate(col = grupo, into = c("sexo", "edad"), sep = 1)
 ```
 
 ## Variables almacenadas tanto en filas como en columnas
