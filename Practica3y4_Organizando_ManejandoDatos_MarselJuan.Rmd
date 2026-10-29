@@ -227,7 +227,19 @@ Obtén la versión *tidy* de este conjunto de datos usando `pivot_longer`.
 Consejo: puedes eliminar el prefijo `wk` de las semanas mediante el argumento `names_prefix`. Opcionalmente puedes crear una columna `date` a partir de `date.entered`, sumando las semanas transcurridas desde la fecha de entrada en lista.
 
 ```{r}
+raw %>% 
+  pivot_longer(
+    cols = wk1:wk76, 
+    names_to = "week", 
+    values_to = "rank",
+    names_prefix = "wk",
+    values_drop_na = TRUE 
+  ) %>% mutate(date = as.Date(date.entered) + (as.numeric(week) - 1) * 7)
 
+#Elegimos las columnas de las semanas y las unificamos en una sola columna week 
+#quitando el prefijo wk, el rango en una columna rank
+#Por ultimo con mutate creamos una columna nueva date pasando a Date la columna
+#date.entered y sumandole diás según cuantas semanas lleven
 
 ```
 
@@ -270,7 +282,6 @@ Para obtener la versión *tidy* primero juntamos todos los días en una variable
 Obtén la versión *tidy* del conjunto de datos `weather` utilizando las funciones `pivot_longer` y `pivot_wider`. Además cambiaremos las columnas `year`, `month` y `dia` por una única variable `fecha`. Para que la operación `pivot_wider` no de error tendremos que eliminar los NA's cuando usemos `pivot_longer`.
 
 ```{r}
-
 
 ```
 
