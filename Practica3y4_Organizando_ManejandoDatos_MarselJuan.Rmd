@@ -396,7 +396,14 @@ Existen variables que, a priori, no tienen demasiado interés para el estudio qu
 - En el data frame `planes` quédate con todas las variables excepto `speed` y `type`.
 
 ```{r }
+#usamos select con nombres de columna con menos
+flights <- flights %>%
+  select(-time_hour, -ends_with("time"))
+#ends_with elige lo que termina por el argumento que le pases
 
+# Eliminar variables en planes
+planes <- planes %>%
+  select(-speed, -type)
 ```
 
 ### Ejercicio 10
