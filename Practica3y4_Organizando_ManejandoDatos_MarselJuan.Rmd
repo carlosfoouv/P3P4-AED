@@ -412,7 +412,12 @@ Incorpora una nueva variable a `flights` denominado `Full_Date` que sea de tipo 
 
 ```{r }
 
-
+flights <- flights %>%
+  mutate(Full_Date = paste(day, month, year, sep = "-")) %>%
+  select(-day, -month, -year)
+#Usamos mutate para añadir una nueva columna llamada Full_Date
+#se crea pasteando day month y year separados con guion
+#Con select e indices negativos no seleccionamos ni day ni month ni year
 ```
 
 ### Ejercicio 11
