@@ -237,9 +237,13 @@ raw %>%
   ) %>% mutate(date = as.Date(date.entered) + (as.numeric(week) - 1) * 7)
 
 #Elegimos las columnas de las semanas y las unificamos en una sola columna week 
-#quitando el prefijo wk, el rango en una columna rank
+#quitando el prefijo wk, el rango en una columna rank quitando los valores NA
+#con values_drop_na = TRUE.
+
 #Por ultimo con mutate creamos una columna nueva date pasando a Date la columna
-#date.entered y sumandole diás según cuantas semanas lleven
+#date.entered y sumándole 7 días por el número de semanas que lleven menos 1
+#Si va por la semana 1 no sumamos días, si va por la semana 2 sumamos 7 días
+
 
 ```
 
@@ -264,6 +268,10 @@ Convierte el conjunto de datos TB en *tidy* utilizando `gather` y `separate`.
 raw %>% 
   gather(key = "grupo", value = "casos", -c(country,year)) %>% 
   separate(col = grupo, into = c("sexo", "edad"), sep = 1)
+
+#Primero hacemos gather para juntar todas las colunas menos las dos primeras
+#en una sola columna llamada grupo. Luego con separate dividimos grupo en
+#dos partes sexo y edad según el primer elemento de la cadena como m65 = m + 65
 ```
 
 ## Variables almacenadas tanto en filas como en columnas
@@ -286,21 +294,22 @@ Obtén la versión *tidy* del conjunto de datos `weather` utilizando las funcion
 ```{r}
 raw %>% 
   pivot_longer(
-    cols = 5:35, 
+    cols = 5:35, #Estas son las columnas de los diferentes días
     names_to = "dia", 
     values_to = "temperatura", 
-    names_prefix = "d",
-    values_drop_na = TRUE 
+    names_prefix = "d", #Así eliminamos la d
+    values_drop_na = TRUE #Eliminmaos NA
   ) %>% 
   mutate(
-    dia = as.numeric(dia),#Primero pasamos a numero como año y mes
-    fecha = as.Date(paste(year, month, dia, sep = "-"))#Lo juntamos con separador -
+    fecha = paste(year, month, dia, sep = "-")#Los juntamos con separador -
   ) %>% 
-  select(-year, -month, -dia) %>% 
+  select(-year, -month, -dia) %>% #Eliminamos year, month y dia
   pivot_wider(
     names_from = element, 
     values_from = temperatura
   )
+
+
 ```
 
 # DPLYR
@@ -384,6 +393,7 @@ flights.f <- flights %>% semi_join(planes.f, by = "tailnum")
 Reasigna los nombres de los data frames `planes.f` y `flights.f` a los nombres originales `planes` y `flights`.
 
 ```{r }
+#Con asignar basta
 planes <- planes.f
 flights <- flights.f
 ```
@@ -401,7 +411,7 @@ flights <- flights %>%
   select(-time_hour, -ends_with("time"))
 #ends_with elige lo que termina por el argumento que le pases
 
-# Eliminar variables en planes
+#Lo mismo que antes, select con indices negativos
 planes <- planes %>%
   select(-speed, -type)
 ```
