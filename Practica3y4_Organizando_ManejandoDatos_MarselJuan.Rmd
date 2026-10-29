@@ -2,15 +2,15 @@
 title: "Práctica 3 y 4. Preparación y manejo de Datos"
 subtitle: "Análisis Exploratorio de Datos, Máster en Ciencia de Datos - UV"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+    number_sections: no
   html_document:
     echo: yes
     number_sections: no
     theme: lumen
     toc: yes
-  pdf_document:
-    toc: yes
-    toc_depth: 3
-    number_sections: no
 ---
 
 ```{r setup, cache=F, echo=F, message=F, warning=F, tidy=F}
@@ -265,7 +265,7 @@ Para pasar a formato *tidy* necesitamos realizar dos operaciones en este caso. E
 Convierte el conjunto de datos TB en *tidy* utilizando `gather` y `separate`.
 
 ```{r}
-raw %>% 
+tidy <- raw %>% 
   gather(key = "grupo", value = "casos", -c(country,year)) %>% 
   separate(col = grupo, into = c("sexo", "edad"), sep = 1)
 
@@ -371,11 +371,9 @@ En nuestro estudio queremos aplicar una serie de criterios de exclusión sobre l
 
 planes.f <- planes %>%
   filter(!(manufacturer %in% c("MCDONELL DOUGLAS", "DOUGLAS", "MCDONELL DOUGLAS AIRCRAFT"))) %>%
-  filter(seats >= 90 & seats <= 210)
-#Primero filtro para eliminar los DOUGLAS ylueg los asientos
-
-mutate(planes.f, manufacturer = ifelse(manufacturer %in% c("AIRBUS", "AIRBUS INDUSTRIE"), "AIRBUS COMP", manufacturer))
-#fuera del pipe usamos mutates para cambiar manufacturer para unificar los AIRBUS
+  filter(seats >= 90 & seats <= 210) %>% #Primero filtro para DOUGLAS luego asientos
+  mutate(manufacturer = ifelse(manufacturer %in% c("AIRBUS", "AIRBUS INDUSTRIE"), "AIRBUS COMP", manufacturer))
+#Usamos mutate para cambiar manufacturer para unificar los AIRBUS
 
 ```
 
