@@ -347,6 +347,8 @@ Muestra las primeras muestras de ambos data frames para hacerte una idea de las 
 ```{r }
 head(flights)
 head(planes)
+
+#son dos dataframes totalmente distintos uno contiene informacion de vuelos como cuando fueron cuanto duraron de donde salian etc y el otro contiene informacion e aviones como quien lo fabrico el modelo o el numero de motores que tiene
 ```
 
 ### Ejercicio 6
